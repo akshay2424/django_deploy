@@ -14,15 +14,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
+      # 🐳 Step 1: Build the Docker image
+      - name: Build Docker image
+        run: docker build -t my-django-app .
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+      # 🧪 Step 2: Run Django tests inside Docker container
+      - name: Run tests inside Docker container
+        run: docker run my-django-app python manage.py test
 
       - name: Run migrations
         run: |
