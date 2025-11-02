@@ -16,16 +16,12 @@ jobs:
 
       # 🐳 Step 1: Build the Docker image
       - name: Build Docker image
-        run: docker build -t my-django-app .
+        run: docker build -t drf-demo .
 
-      # 🧪 Step 2: Run Django tests inside Docker container
+      # Step 2: Run migrations inside container
+      - name: Run migrations inside Docker container
+        run: docker run drf-demo python manage.py migrate --noinput
+
+      # 🧪 Step 3: Run Django tests inside Docker container
       - name: Run tests inside Docker container
-        run: docker run my-django-app python manage.py test
-
-      - name: Run migrations
-        run: |
-          python manage.py migrate --noinput
-
-      - name: Run tests
-        run: |
-          python manage.py test
+        run: docker run drf-demo python manage.py test
